@@ -15,8 +15,8 @@ void TestMem(int expCount, Banchmark& bnch, std::string filename) {
 		bnch.launchNum[i] = i;
 		char* arr = new char[bnch.blockSize];
 		if (filename == "") {
-			bnch.timeR[i] = ReadFromRam(bnch.blockSize, arr);
 			bnch.timeWr[i] = WriteToRam(bnch.blockSize, arr);
+			bnch.timeR[i] = ReadFromRam(bnch.blockSize, arr);
 		}
 		else {
 			bnch.timeWr[i] = WriteToFile(bnch.blockSize, filename);
@@ -37,7 +37,6 @@ void TestMem(int expCount, Banchmark& bnch, std::string filename) {
 		bnch.wrAbsErr[i] = abs(bnch.timeWr[i] - bnch.avTimeWr);
 		bnch.wrRelErr[i] = (bnch.wrAbsErr[i] / bnch.avTimeWr) * 100;
 	}
-	SaveToCSV(bnch);
 }
 
 // Чтение из RAM
@@ -62,7 +61,7 @@ double WriteToRam(int size, char* arr) {
 	std::chrono::steady_clock::time_point startTimer, stopTimer;
 	for (int i(0); i < size; i++) {
 		symb = rand() % 255 - 128;
-		char symb = '0';
+		if (symb == -1) symb = 'o';
 		startTimer = std::chrono::high_resolution_clock::now();
 		arr[i] = symb;
 		stopTimer = std::chrono::high_resolution_clock::now();
@@ -108,37 +107,30 @@ double WriteToFile(int size, std::string path) {
 	return time;
 }
 
-template<typename T>
-void WriteVecToCSV(std::string vecName, std::vector<T>& vec, std::ofstream& myfile) {
-	myfile << vecName << ";";
-	for (int i(0); i < vec.size(); i++)
-		myfile << vec[i] << ";";
-	myfile << "\n";
-}
 
-void SaveToCSV(Banchmark& bnch) {
+void SaveToCSV(Banchmark& bnch, std::string csvname) {
 	std::ofstream myfile;
-	myfile.open("Statistics.csv", std::ios_base::out);
-	//myfile.open("Statistics.csv", std::ios_base::app);
+	//myfile.open("Statistics.csv", std::ios_base::out);
+	myfile.open(csvname, std::ios_base::app);
 	myfile << "Memory type;" << bnch.memType << "\n";
 	myfile << "Block Size;" << bnch.blockSizeWithOrigUnit << " " << bnch.blockUnit << "\n";
 	myfile << "Element type;" << bnch.elemType<< "\n";
 	myfile << "BufferSize;" << bnch.bufferSize<< "\n";
-	WriteVecToCSV("LaunchNum", bnch.launchNum, myfile);
+	WriteVecToCSV(bnch.launchNum, myfile, "LaunchNum");
 	myfile << "Timer;" << bnch.timer<< "\n";
 
 	myfile << "AverageWriteTime;" << bnch.avTimeWr << "\n";
-	WriteVecToCSV("WriteTime", bnch.timeWr, myfile);
+	WriteVecToCSV(bnch.timeWr, myfile, "WriteTime");
 	myfile << "WriteBandWidth;" << bnch.wrBandwidth<< "\n";
-	WriteVecToCSV("AbsError(write)", bnch.wrAbsErr, myfile);
-	WriteVecToCSV("RelError(write)", bnch.wrRelErr, myfile);
+	WriteVecToCSV(bnch.wrAbsErr, myfile, "AbsError(write)");
+	WriteVecToCSV(bnch.wrRelErr, myfile, "RelError(write)");
 
 	myfile << "AverageReadTime;" << bnch.avTimeR << "\n";
-	WriteVecToCSV("ReadTime", bnch.timeR, myfile);
+	WriteVecToCSV(bnch.timeR, myfile, "ReadTime");
 	myfile << "ReadBandWidth;" << bnch.rBandwidth << "\n";
-	WriteVecToCSV("AbsError(read)", bnch.rAbsErr, myfile);
-	WriteVecToCSV("RelError(read)", bnch.rRelErr, myfile);
-
+	WriteVecToCSV(bnch.rAbsErr, myfile, "AbsError(read)");
+	WriteVecToCSV(bnch.rRelErr, myfile, "RelError(read)");
+	myfile << "\n";
 
 	myfile.close();
 }

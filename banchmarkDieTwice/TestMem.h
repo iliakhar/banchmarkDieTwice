@@ -34,5 +34,15 @@ double ReadFromFile(std::string path);
 
 double ReadFromRam(int size, char* arr);
 double WriteToRam(int size, char* arr);
+void SaveToCSV(Banchmark& bnch, std::string csvname);
 
-void SaveToCSV(Banchmark& bnch);
+template<typename T>
+void WriteVecToCSV(std::vector<T>& vec, std::ofstream& myfile, std::string vecName = "") {
+	if(vecName!="")
+		myfile << vecName << ";";
+	for (int i(0); i < vec.size(); i++)
+		myfile << vec[i] << ";";
+	myfile << "\n";
+}
+
+
