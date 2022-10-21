@@ -162,10 +162,14 @@ void SaveBndErrVecsInCsv(int expCount, int step, int stepCount, char memType, bo
 		}
 		wrAv /= n;
 		rAv /= n;
+		double avWrBandErr = 0, avRBandErr = 0;
 		for (int j(0); j < n; j++) {
-			wrBandErr[i] = (abs(wrBnd[j] - wrAv) / wrAv) * 100;
-			rBandErr[i] = (abs(rBnd[j] - rAv) / rAv) * 100;
+			avWrBandErr += (abs(wrBnd[j] - wrAv) / wrAv) * 100;
+			avRBandErr += (abs(rBnd[j] - rAv) / rAv) * 100;
 		} 
+		wrBandErr[i] = avWrBandErr / n;
+		rBandErr[i] = avRBandErr / n;
+
 	}
 
 	if (wrWithX) {	//blockSize

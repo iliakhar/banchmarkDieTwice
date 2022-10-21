@@ -1,0 +1,68 @@
+Memory type;RAM
+Block Size;60 b
+Element type;char
+BufferSize;1
+LaunchNum;0;1;2;3;4;5;6;7;8;9;
+Timer;std::chrono::high_resolution_clock::now
+AverageWriteTime;3790
+WriteTime;5000;2700;4200;7300;3000;3400;2700;3400;2900;3300;
+WriteBandWidth;15.8311
+AbsError(write);1210;1090;410;3510;790;390;1090;390;890;490;
+RelError(write);31.9261;28.7599;10.8179;92.6121;20.8443;10.2902;28.7599;10.2902;23.4828;12.9288;
+AverageReadTime;3250
+ReadTime;3300;3100;4300;3100;2900;3000;3000;3200;3200;3400;
+ReadBandWidth;18.4615
+AbsError(read);50;150;1050;150;350;250;250;50;50;150;
+RelError(read);1.53846;4.61538;32.3077;4.61538;10.7692;7.69231;7.69231;1.53846;1.53846;4.61538;
+
+Memory type;RAM
+Block Size;124 b
+Element type;char
+BufferSize;1
+LaunchNum;0;1;2;3;4;5;6;7;8;9;
+Timer;std::chrono::high_resolution_clock::now
+AverageWriteTime;7830
+WriteTime;8900;7300;7500;7700;8700;6200;6700;7600;7900;9800;
+WriteBandWidth;15.8365
+AbsError(write);1070;530;330;130;870;1630;1130;230;70;1970;
+RelError(write);13.6654;6.76884;4.21456;1.66028;11.1111;20.8174;14.4317;2.93742;0.893997;25.1596;
+AverageReadTime;7650
+ReadTime;8000;9400;7700;7500;6300;7400;6200;6600;8000;9400;
+ReadBandWidth;16.2092
+AbsError(read);350;1750;50;150;1350;250;1450;1050;350;1750;
+RelError(read);4.57516;22.8758;0.653595;1.96078;17.6471;3.26797;18.9542;13.7255;4.57516;22.8758;
+
+Memory type;RAM
+Block Size;188 b
+Element type;char
+BufferSize;1
+LaunchNum;0;1;2;3;4;5;6;7;8;9;
+Timer;std::chrono::high_resolution_clock::now
+AverageWriteTime;10560
+WriteTime;13200;12800;11700;10200;8100;9900;9800;10800;8800;10300;
+WriteBandWidth;17.803
+AbsError(write);2640;2240;1140;360;2460;660;760;240;1760;260;
+RelError(write);25;21.2121;10.7955;3.40909;23.2955;6.25;7.19697;2.27273;16.6667;2.46212;
+AverageReadTime;10410
+ReadTime;10700;11900;13200;9700;9900;9800;9700;9500;9700;10000;
+ReadBandWidth;18.0596
+AbsError(read);290;1490;2790;710;510;610;710;910;710;410;
+RelError(read);2.78578;14.3132;26.8012;6.82037;4.89914;5.85975;6.82037;8.74159;6.82037;3.93852;
+
+Memory type;RAM
+Block Size;252 b
+Element type;char
+BufferSize;1
+LaunchNum;0;1;2;3;4;5;6;7;8;9;
+Timer;std::chrono::high_resolution_clock::now
+AverageWriteTime;13500
+WriteTime;14000;13600;12700;13700;12200;13100;12900;13500;15700;13600;
+WriteBandWidth;18.6667
+AbsError(write);500;100;800;200;1300;400;600;0;2200;100;
+RelError(write);3.7037;0.740741;5.92593;1.48148;9.62963;2.96296;4.44444;0;16.2963;0.740741;
+AverageReadTime;13200
+ReadTime;13100;13100;15100;13100;12800;13000;13000;13100;13000;12700;
+ReadBandWidth;19.0909
+AbsError(read);100;100;1900;100;400;200;200;100;200;500;
+RelError(read);0.757576;0.757576;14.3939;0.757576;3.0303;1.51515;1.51515;0.757576;1.51515;3.78788;
+
