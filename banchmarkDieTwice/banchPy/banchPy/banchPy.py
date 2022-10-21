@@ -54,9 +54,11 @@ def CreateGraphic(filename, grName, xLabel, yLabel, subplot):
     PrintTable(grName, columnName, dopList)
 
 
-CreateGraphic("BandWr.csv", "WriteBandwidth", 'Block Size', 'Bandwidth', 221)
-CreateGraphic("BandR.csv", "ReadBandwidth", 'Block Size', 'Bandwidth', 222)
-CreateGraphic("Err.csv", "Error", 'LaunchNum', 'Error (%)', 223)
+CreateGraphic("BandWr.csv", "WriteBandwidth", 'Block Size', 'Bandwidth', 231)
+CreateGraphic("BandR.csv", "ReadBandwidth", 'Block Size', 'Bandwidth', 232)
+CreateGraphic("BandWrErr.csv", "WriteBandwidth Error", 'Block Size', 'Error', 233)
+CreateGraphic("BandRErr.csv", "ReadBandwidth Error", 'Block Size', 'Error', 234)
+CreateGraphic("Err.csv", "Error", 'LaunchNum', 'Error (%)', 235)
 
 
 plt.show()

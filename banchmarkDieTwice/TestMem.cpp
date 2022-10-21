@@ -27,8 +27,8 @@ void TestMem(int expCount, Banchmark& bnch, std::string filename) {
 	}
 	bnch.avTimeR /= expCount;
 	bnch.avTimeWr /= expCount;
-	bnch.wrBandwidth = bnch.blockSize / bnch.avTimeWr * 1000000;
-	bnch.rBandwidth = bnch.blockSize / bnch.avTimeR * 1000000;
+	bnch.wrBandwidth = bnch.blockSize / bnch.avTimeWr * 1000;
+	bnch.rBandwidth = bnch.blockSize / bnch.avTimeR * 1000;
 
 	for (int i(0); i < expCount; i++) {
 		bnch.rAbsErr[i] = abs(bnch.timeR[i] - bnch.avTimeR);

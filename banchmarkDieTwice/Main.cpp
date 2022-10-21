@@ -5,7 +5,6 @@
 
 int main() {
 	srand(time(NULL));
-	//task3();
-	task1();
+	task3();
 	
 }

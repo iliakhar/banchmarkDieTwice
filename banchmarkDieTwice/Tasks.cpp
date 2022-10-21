@@ -41,7 +41,7 @@ void task1() {
 		break;
 	case 'f':
 		bnch.memType = "Flash";
-		TestMem(expCount, bnch, "F:\\test.txt");
+		TestMem(expCount, bnch, "G:\\test.txt");
 		break;
 	}
 	SaveToCSV(bnch, "Statistic_t1.csv");
@@ -50,30 +50,30 @@ void task1() {
 void task2() {
 
 	std::ofstream myfile;
-	myfile.open("Statistic_t1.csv", std::ios_base::out);
+	myfile.open("Statistic_t2.csv", std::ios_base::out);
 	myfile.close();
 
-	for (int i(64); i <= 256; i += 64) {
+	for (int i(60); i < 256; i += 64) {
 		Banchmark bnch;
 		bnch.blockSizeWithOrigUnit = bnch.blockSize = i;
 		bnch.blockUnit = "b";
 		bnch.memType = "RAM";
 		TestMem(10, bnch);
-		SaveToCSV(bnch, "Statistic_t2.csv");
+		SaveToCSV(bnch, "Statistic_2.csv");
 	}
 	std::string filename("test.txt");
 	std::string memType("HDD");
 	for (int j(0); j < 2; j++) {
-		for (int i(4); i <= 16; i += 4) {
+		for (int i(4); i <= 8; i += 4) {
 			Banchmark bnch;
 			bnch.blockSizeWithOrigUnit = i;
 			bnch.blockSize = i * 1024 * 1024;
 			bnch.blockUnit = "Mb";
 			bnch.memType = memType;
 			TestMem(20, bnch, filename);
-			SaveToCSV(bnch, "Statistic_t2.csv");
+			SaveToCSV(bnch, "Statistic_2.csv");
 		}
-		filename = "test.txt";
+		filename = "G:\\test.txt";
 		memType = "Flash";
 	}
 
@@ -103,7 +103,7 @@ void SaveBndVecsInCsv(int expCount, int step, int stepCount, char memType, bool 
 		break;
 	case 'f':
 		fullMemType = "Flash";
-		writeTo = "F:\\test.txt";
+		writeTo = "G:\\test.txt";
 		break;
 	}
 
@@ -125,14 +125,75 @@ void SaveBndVecsInCsv(int expCount, int step, int stepCount, char memType, bool 
 	bandWr.close();
 }
 
+void SaveBndErrVecsInCsv(int expCount, int step, int stepCount, char memType, bool wrWithX) {
+	Banchmark bnch;
+	std::ofstream bandR, bandWr;
+	std::vector<double> wrBandErr(stepCount);
+	std::vector<double> rBandErr(stepCount);
+	std::vector<int> num(stepCount);
+	std::string writeTo("");
+	std::string fullMemType("RAM");
+	bandR.open("banchPy\\banchPy\\BandRErr.csv", std::ios_base::app);
+	bandWr.open("banchPy\\banchPy\\BandWrErr.csv", std::ios_base::app);
+
+	switch (memType) {
+	case 'h':
+		fullMemType = "HDD";
+		writeTo = "test.txt";
+		break;
+	case 'f':
+		fullMemType = "Flash";
+		writeTo = "G:\\test.txt";
+		break;
+	}
+	double wrAv, rAv;
+	int n = 10;
+	for (int i(0); i < stepCount; i++) {
+		wrAv = rAv = 0;
+		num[i] = bnch.blockSize = (i + 1) * step;
+		std::vector<double> wrBnd(bnch.blockSize);
+		std::vector<double> rBnd(bnch.blockSize);
+		for (int j(0); j < n; j++) {
+			TestMem(expCount, bnch, writeTo);
+			wrBnd[j] = bnch.wrBandwidth;
+			rBnd[j] = bnch.rBandwidth;
+			wrAv += wrBnd[j];
+			rAv += rBnd[j];
+		}
+		wrAv /= n;
+		rAv /= n;
+		for (int j(0); j < n; j++) {
+			wrBandErr[i] = (abs(wrBnd[j] - wrAv) / wrAv) * 100;
+			rBandErr[i] = (abs(rBnd[j] - rAv) / rAv) * 100;
+		} 
+	}
+
+	if (wrWithX) {	//blockSize
+		WriteVecToCSV(num, bandR, "blockSize");
+		WriteVecToCSV(num, bandWr, "blockSize");
+	}
+	WriteVecToCSV(wrBandErr, bandWr, fullMemType);
+	WriteVecToCSV(rBandErr, bandR, fullMemType);
+
+	bandR.close();
+	bandWr.close();
+}
+
 void task3() {
 
 	int stepCount(20), expCount(10), step(512);
 	ClearCsv("banchPy\\banchPy\\BandR.csv");
 	ClearCsv("banchPy\\banchPy\\BandWr.csv");
+	ClearCsv("banchPy\\banchPy\\BandRErr.csv");
+	ClearCsv("banchPy\\banchPy\\BandWrErr.csv");
+
 	SaveBndVecsInCsv(expCount, step, stepCount, 'r', true);
 	SaveBndVecsInCsv(expCount, step, stepCount, 'h');
 	SaveBndVecsInCsv(expCount, step, stepCount, 'f');
+
+	SaveBndErrVecsInCsv(expCount, step, stepCount, 'r', true);
+	SaveBndErrVecsInCsv(expCount, step, stepCount, 'h');
+	SaveBndErrVecsInCsv(expCount, step, stepCount, 'f');
 
 	std::ofstream errFile;
 	errFile.open("banchPy\\banchPy\\Err.csv", std::ios_base::out);
@@ -145,7 +206,8 @@ void task3() {
 	std::vector<double> num(stepCount);
 	for (int i(0); i < stepCount; i++) {
 		num[i] = (i + 1) * step;
-		TestMem(num[i], bnch);
+		TestMem(num[i], bnch, "test.txt");
+		SaveToCSV(bnch, "Statistic_t1.csv");
 		for (int j(0); j < num[i]; j++) {
 			vecErrWr[i] += bnch.wrRelErr[j];
 			vecErrR[i] += bnch.rRelErr[j];

@@ -33,4 +33,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Statistic_t1.csv">
+      <Filter>Исходные файлы</Filter>
+    </None>
+    <None Include="Statistic_t2.csv">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
 </Project>

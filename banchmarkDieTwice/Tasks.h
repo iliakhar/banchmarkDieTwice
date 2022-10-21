@@ -7,3 +7,4 @@ void task3();
 
 void ClearCsv(std::string filename);
 void SaveBndVecsInCsv(int expCount, int step, int stepCount, char memType, bool wrWithX = false);
+void SaveBndErrVecsInCsv(int expCount, int step, int stepCount, char memType, bool wrWithX = false);
